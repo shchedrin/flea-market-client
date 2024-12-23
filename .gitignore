@@ -1,2 +1,3 @@
 logs/client.log
 sessions/keyword_search_session.session
+.env
