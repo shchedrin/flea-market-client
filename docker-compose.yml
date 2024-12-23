@@ -1,0 +1,16 @@
+services:
+  telegram-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: telegram-client
+    volumes:
+      - ./sessions:/app/sessions  # Хранение файла сессии
+      - ./logs:/app/logs          # Хранение логов
+    environment:
+      - API_ID=${API_ID}
+      - API_HASH=${API_HASH}
+      - TARGET_CHANNEL=${TARGET_CHANNEL}
+      - CHAT_IDS=${CHAT_IDS}
+      - KEYWORDS=${KEYWORDS}
+      - SEARCH_INTERVAL=${SEARCH_INTERVAL}
