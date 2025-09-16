@@ -1,5 +1,6 @@
-logs/client.log
-sessions/keyword_search_session.session
 .env
 .DS_Store
 .idea
+data
+logs
+sessions
