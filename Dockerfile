@@ -14,8 +14,11 @@ COPY requirements.txt requirements.txt
 COPY client.py client.py
 COPY .env .env
 
+# Создаём папку для базы, чтобы не было проблем с правами
+RUN mkdir -p /app/data /app/sessions /app/logs
+
 # Устанавливаем Python-зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Указываем команду для запуска
+# Запуск скрипта
 CMD ["python", "client.py"]
