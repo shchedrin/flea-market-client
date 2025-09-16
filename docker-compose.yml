@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   telegram-client:
     build:
@@ -5,8 +7,9 @@ services:
       dockerfile: Dockerfile
     container_name: telegram-client
     volumes:
-      - ./sessions:/app/sessions  # Хранение файла сессии
-      - ./logs:/app/logs          # Хранение логов
+      - ./sessions:/app/sessions      # Файл сессии
+      - ./logs:/app/logs              # Логи
+      - ./data:/app/data              # База SQLite
     environment:
       - API_ID=${API_ID}
       - API_HASH=${API_HASH}

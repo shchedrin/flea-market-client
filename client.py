@@ -7,7 +7,6 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from dotenv import load_dotenv
 from telethon import TelegramClient
-from telethon.tl.types import Message
 
 # --- Загружаем .env ---
 load_dotenv()
@@ -36,8 +35,10 @@ session_path = os.path.join(os.getcwd(), 'sessions', 'keyword_search_session')
 # --- Инициализация клиента ---
 client = TelegramClient(session_path, API_ID, API_HASH)
 
-# --- База SQLite ---
-DB_PATH = Path("forwarded.db")
+# Жёсткий путь для базы
+DB_PATH = Path("/app/data/forwarded.db")
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
 conn = sqlite3.connect(DB_PATH)
 cur = conn.cursor()
 cur.execute("""
@@ -48,6 +49,8 @@ CREATE TABLE IF NOT EXISTS forwarded_messages (
 )
 """)
 conn.commit()
+
+print(f"DB initialized at {DB_PATH.resolve()}")
 
 def normalize_text(text: str) -> str:
     """Нормализация текста: убираем пробелы, в нижний регистр"""
