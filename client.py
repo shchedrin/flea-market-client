@@ -60,10 +60,10 @@ def get_hash(text: str) -> str:
     """SHA256-хэш нормализованного текста"""
     return hashlib.sha256(normalize_text(text).encode("utf-8")).hexdigest()
 
-def is_forwarded(chat_id: int, text: str) -> bool:
+def is_forwarded(text: str) -> bool:
     """Проверяем, пересылалось ли сообщение"""
     h = get_hash(text)
-    cur.execute("SELECT 1 FROM forwarded_messages WHERE chat_id=? AND msg_hash=?", (chat_id, h))
+    cur.execute("SELECT 1 FROM forwarded_messages WHERE msg_hash=?", (h,))
     return cur.fetchone() is not None
 
 def add_forwarded(chat_id: int, text: str):
@@ -122,8 +122,8 @@ async def search_messages():
 
                 text = message.text.strip()
                 if any(kw in text.lower() for kw in KEYWORDS):
-                    if is_forwarded(chat_id, text):
-                        logging.info(f"Сообщение {message.id} из {chat_id} уже пересылалось, пропускаем.")
+                    if is_forwarded(text):
+                        logging.info(f"Сообщение {message.id} уже пересылалось, пропускаем.")
                         continue
 
                     logging.info(f"Новое сообщение в чате {chat_id}: {text[:50]}...")
